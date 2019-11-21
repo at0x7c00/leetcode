@@ -8,6 +8,7 @@ import java.util.*;
  */
 public class CircleArrayQueue<T> {
     final static int DEFAULT_SIZE = 10;
+    final static Object[] DEFAULT_EMPTY_ARRAY = new Object[0];
     private Object[] elements;
     private int front; //队列头
     private int rear;  //队列尾
@@ -15,16 +16,19 @@ public class CircleArrayQueue<T> {
     private int arraySize;
 
     public CircleArrayQueue(){
-        elements = new Object[DEFAULT_SIZE];
+        elements = DEFAULT_EMPTY_ARRAY;
         arraySize = elements.length;
-        List x = new ArrayList();
+        List x = new Vector();
     }
 
-    public CircleArrayQueue(int initSize){
-        if(initSize<=0){
-            throw new IllegalArgumentException("Illegal init size:" + initSize);
+    public CircleArrayQueue(int capacity){
+        if(capacity > 0){
+            elements = new Object[capacity];
+        }else if(capacity !=0 ){
+             throw new IllegalArgumentException("Illegal init capacity:" + capacity);
         }
-        elements = new Object[initSize];
+        //capacity = 0
+        elements = DEFAULT_EMPTY_ARRAY;
         arraySize = elements.length;
     }
 
