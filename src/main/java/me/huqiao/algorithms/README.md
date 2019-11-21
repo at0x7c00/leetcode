@@ -99,3 +99,63 @@
 * 数组大小是0是，不会重新`new Object[0]`，而是引用已经准备好的`static final`类型的空数组。这样可以防止没必要的空数组的创建。
 * 第一次增长，直接增长到10。之后是x2的方式增长。在特殊场景，比如需要一次性往ArrayList中增加大量数据是，可以通过`ensureCapacity`方法来指定一个容量，这样可以防止数组多次缓慢增长。
 * 线程安全：ArrayList本身并不是线程安全的，它在复制原始数组时，并没有做任何同步防护。Vector是线程安全的，它的防护方式也非常粗暴，直接在`add`、`remove`的方法上增加`synchronized`。
+
+# 递归
+## 迷宫问题
+
+## 八皇后问题
+用一个数组`arr`来表示一个解决方案。数组的长度为8，`arr[i]`的值表示第`i+1`行的皇后存放置在`arr[i]+1`的位置。
+
+每次尝试往一行中的每一列中放置一个皇后（trySolution），放置完之后需要验证是否与其他皇后冲突（checkSolution）。
+
+每一行是一层递归，每次验证成功之后，才能进入下一层递归。
+
+```java
+public class Queen8 {
+
+    final static int col = 8;
+    final static int row = 8;
+    private static int count = 0;
+    private static int tryCount = 0;
+    public static void main(String[] args) {
+
+        int[] solution = new int[8];
+        int level = 0;
+        trySolution(solution,level);
+        System.out.println("Total solution:"+count);
+        System.out.println("Number of verifications:"+tryCount);
+    }
+
+    private static void trySolution(int[] solution,int level){
+        for(int i = 0; i < col; i++){
+            solution[level] = i;
+            if (checkSolution(solution, level)) {
+                if(level<7) {
+                    trySolution(solution, level + 1);
+                }else{
+                    //得出一个解
+                    print(solution);
+                    count++;
+                }
+            }
+        }
+    }
+
+    private static void print(int[] solution) {
+        for(int i : solution){
+            System.out.print((i+1)+",");
+        }
+        System.out.println();
+    }
+
+    private static boolean checkSolution(int[] solution,int level) {
+        tryCount++;
+        for(int i = 0;i<level;i++){
+            if(solution[i] == solution[level] || Math.abs(level - i) == Math.abs(solution[level] - solution[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```

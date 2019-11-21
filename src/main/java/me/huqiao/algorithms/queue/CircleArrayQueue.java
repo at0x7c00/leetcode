@@ -18,7 +18,7 @@ public class CircleArrayQueue<T> {
     public CircleArrayQueue(){
         elements = DEFAULT_EMPTY_ARRAY;
         arraySize = elements.length;
-        List x = new Vector();
+        List x = new ArrayList();
     }
 
     public CircleArrayQueue(int capacity){
