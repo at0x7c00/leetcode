@@ -44,7 +44,9 @@ public class Queen8 {
     private static boolean checkSolution(int[] solution,int level) {
         tryCount++;
         for(int i = 0;i<level;i++){
-            if(solution[i] == solution[level] || Math.abs(level - i) == Math.abs(solution[level] - solution[i])){
+            if(solution[i] == solution[level] //不能处于同一列
+                    || Math.abs(level - i) == Math.abs(solution[level] - solution[i]) //不能处于同一斜线
+            ){
                 return false;
             }
         }
